@@ -1,4 +1,6 @@
-Page({
+import CustomPage from '../../base/CustomPage'
+
+CustomPage({
   data: {
     tips: '请稍后',
     show: true,
@@ -10,6 +12,11 @@ Page({
         show: !this.data.show
       })
     }, 2000)
+  },
+  close() {
+    this.setData({
+      animated: !this.data.animated
+    })
   },
   onUnload() {
     clearInterval(this.timer)

@@ -1,4 +1,6 @@
-Page({
+import CustomPage from '../base/CustomPage'
+
+CustomPage({
     data: {
         list: [
             {
@@ -11,13 +13,25 @@ Page({
                 id: 'widget',
                 name: '基础组件',
                 open: false,
-                pages: ['article', 'badge', 'flex', 'footer', 'gallery', 'grid', 'loadmore', 'loading', 'panel', 'preview']
+                pages: [
+                    'article',
+                    'icons',
+                    'badge',
+                    'flex',
+                    'footer',
+                    'gallery',
+                    'grid',
+                    'loadmore',
+                    'loading',
+                    'panel',
+                    'preview'
+                ]
             },
             {
                 id: 'feedback',
                 name: '操作反馈',
                 open: false,
-                pages: ['dialog', 'msg']
+                pages: ['dialog', 'msg', 'half-screen-dialog', 'actionsheet', 'toptips']
             },
             {
                 id: 'nav',
@@ -34,8 +48,9 @@ Page({
         ]
     },
     kindToggle: function (e) {
-        var id = e.currentTarget.id, list = this.data.list;
-        for (var i = 0, len = list.length; i < len; ++i) {
+        const id = e.currentTarget.id,
+            list = this.data.list
+        for (let i = 0, len = list.length; i < len; ++i) {
             if (list[i].id == id) {
                 list[i].open = !list[i].open
             } else {
@@ -44,6 +59,17 @@ Page({
         }
         this.setData({
             list: list
-        });
+        })
+    },
+    themeToggle() {
+        const App = getApp()
+
+        if (App.themeChanged) {
+            if (App.globalData.theme === 'light') {
+                App.themeChanged('dark')
+            } else {
+                App.themeChanged('light')
+            }
+        }
     }
-});
+})

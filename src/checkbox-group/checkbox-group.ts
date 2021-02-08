@@ -1,4 +1,8 @@
 Component({
+    options: {
+        addGlobalClass: true,
+        multipleSlots: true
+    },
     properties: {
         multi: {
             type: Boolean,
@@ -7,7 +11,7 @@ Component({
         },
         extClass: {
             type: String,
-            value: '',
+            value: ''
         },
         prop: {
             type: String,
@@ -46,7 +50,7 @@ Component({
             }
         },
         '../form/form': {
-            type: 'ancestor',
+            type: 'ancestor'
         },
         '../cells/cells': {
             type: 'ancestor',
@@ -54,26 +58,26 @@ Component({
                 if (!this.data.parentCell) {
                     this.data.parentCell = target
                 }
+                this.setParentCellsClass()
             },
-            unlinked(target) {
-                this.data.parentCell = null; // 方便内存回收
+            unlinked() {
+                this.data.parentCell = null // 方便内存回收
             }
-        },
+        }
     },
     methods: {
         checkedChange(checked, target) {
-            console.log('checked change', checked)
             if (this.data.multi) {
                 const vals = []
-                this.data.targetList.forEach(item => {
+                this.data.targetList.forEach((item) => {
                     if (item.data.checked) {
                         vals.push(item.data.value)
                     }
                 })
-                this.triggerEvent('change', {value: vals})
+                this.triggerEvent('change', { value: vals })
             } else {
                 let val = ''
-                this.data.targetList.forEach(item => {
+                this.data.targetList.forEach((item) => {
                     if (item === target) {
                         val = item.data.value
                     } else {
@@ -82,13 +86,19 @@ Component({
                         })
                     }
                 })
-                this.triggerEvent('change', {value: val}, {})
+                this.triggerEvent('change', { value: val }, {})
+            }
+        },
+        setParentCellsClass() {
+            const className = this.data.multi ? 'weui-cells_checkbox' : ''
+            if (this.data.parentCell) {
+                this.data.parentCell.setCellsClass(className)
             }
         },
         _multiChange(multi) {
-            this.data.targetList.forEach(target => {
+            this.data.targetList.forEach((target) => {
                 target.setMulti(multi)
-            });
+            })
             if (this.data.parentCell) {
                 this.data.parentCell.setCellMulti(multi)
             }
